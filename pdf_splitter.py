@@ -1,27 +1,68 @@
 from PyPDF2 import PdfWriter, PdfReader
 
-reader = PdfReader("pdf_prueba.pdf")
-writer = PdfWriter()
-
-# Obtiene la parte izquierda del PDF
-page = reader.pages[2]
-original_width = page.mediabox[2] - page.mediabox[0]
-new_right = original_width / 2
-page.mediabox.upper_right = (new_right, page.mediabox[3])
-writer.add_page(page)
-
-with open("PyPDF2-output.pdf", "wb") as fp:
-    writer.write(fp)
+class PDFSplitter:
     
-# Obtiene la parte derecha del PDF
-reader2 = PdfReader("pdf_prueba.pdf")
-writer2 = PdfWriter()
+    def __init__(self, pdf_file) -> None:
+        self.pdf_file = pdf_file
+        
+    def _get_left_pages(self):
+        """Crea un archivo .pdf con las paginas de la izquierda del original.
+        """
+        reader = PdfReader(self.pdf_file)
+        writer = PdfWriter()
+        
+        for page in reader.pages:
+            
+            # Obtiene la parte izquierda de la pagina
+            original_width = page.mediabox[2] - page.mediabox[0]
+            new_right = original_width / 2
+            page.mediabox.upper_right = (new_right, page.mediabox[3])
+            writer.add_page(page)
 
-page2 = reader2.pages[2]
-original_width2 = page2.mediabox[2] - page2.mediabox[0]
-new_left2 = original_width2 / 2
-page2.mediabox.lower_left = (new_left2, page2.mediabox[1])
-writer2.add_page(page2)
+        with open("left_pages.pdf", "wb") as file:
+            writer.write(file)
 
-with open("PyPDF2-output-2.pdf", "wb") as fp2:
-    writer2.write(fp2)
+    def _get_right_pages(self):
+        """Crea un archivo .pdf con las paginas de la derecha del original."""
+        reader = PdfReader(self.pdf_file)
+        writer = PdfWriter()
+        
+        for page in reader.pages:
+            # Obtiene la parte derecha de la pagina
+            original_width = page.mediabox[2] - page.mediabox[0]
+            new_left = original_width / 2
+            page.mediabox.lower_left = (new_left, page.mediabox[1])
+            writer.add_page(page)
+
+        with open("right_pages.pdf", "wb") as file:
+            writer.write(file)
+            
+    def _create_splitted_files(self):
+        self._get_left_pages()
+        self._get_right_pages()
+            
+    def _delete_splitted_files(self):
+        pass
+    
+    def split_file(self):
+        # Crea los archivos de las paginas izquierdas y derechas
+        self._create_splitted_files()
+        
+        left_reader = PdfReader("left_pages.pdf")
+        right_reader = PdfReader("right_pages.pdf")
+        output_writer = PdfWriter()
+        
+        total_pages = max(len(left_reader.pages), len(right_reader.pages))
+        
+        # Combina ambos ficheros
+        for i in range(total_pages):
+            output_writer.add_page(left_reader.pages[i])
+            output_writer.add_page(right_reader.pages[i])
+            
+        with open("combined_pages.pdf", "wb") as file:
+            output_writer.write(file)
+        
+        
+if __name__ == "__main__":
+    pdf_splitter = PDFSplitter("pdf_prueba.pdf")
+    pdf_splitter.split_file()
