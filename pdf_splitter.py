@@ -68,7 +68,3 @@ class PDFSplitter:
         
         # Borra los archivos temporales
         self._delete_splitted_files()
-        
-if __name__ == "__main__":
-    pdf_splitter = PDFSplitter("pdf_prueba.pdf")
-    pdf_splitter.split_file()
