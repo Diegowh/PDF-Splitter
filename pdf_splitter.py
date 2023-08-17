@@ -48,7 +48,7 @@ class PDFSplitter:
         os.remove("left_pages.pdf")
         os.remove("right_pages.pdf")
     
-    def split_file(self):
+    def split_file(self, output_directory):
         # Crea los archivos de las paginas izquierdas y derechas
         self._create_splitted_files()
         
@@ -63,7 +63,12 @@ class PDFSplitter:
             output_writer.add_page(left_reader.pages[i])
             output_writer.add_page(right_reader.pages[i])
             
-        with open("combined_pages.pdf", "wb") as file:
+        # Crea el path del fichero de salida y el nombre de este
+        input_filename = os.path.basename(self.pdf_file)
+        output_filename = os.path.splitext(input_filename)[0] + "_splitted.pdf"
+        output_file_path = os.path.join(output_directory, output_filename)
+        
+        with open(output_file_path, "wb") as file:
             output_writer.write(file)
         
         # Borra los archivos temporales
