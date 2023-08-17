@@ -1,3 +1,4 @@
+import os
 from PyPDF2 import PdfWriter, PdfReader
 
 class PDFSplitter:
@@ -42,7 +43,8 @@ class PDFSplitter:
         self._get_right_pages()
             
     def _delete_splitted_files(self):
-        pass
+        os.remove("left_pages.pdf")
+        os.remove("right_pages.pdf")
     
     def split_file(self):
         # Crea los archivos de las paginas izquierdas y derechas
@@ -62,6 +64,8 @@ class PDFSplitter:
         with open("combined_pages.pdf", "wb") as file:
             output_writer.write(file)
         
+        # Borra los archivos temporales
+        self._delete_splitted_files()
         
 if __name__ == "__main__":
     pdf_splitter = PDFSplitter("pdf_prueba.pdf")
