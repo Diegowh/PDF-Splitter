@@ -39,10 +39,12 @@ class PDFSplitter:
             writer.write(file)
             
     def _create_splitted_files(self):
+        """Crea los archivos temporales."""
         self._get_left_pages()
         self._get_right_pages()
             
     def _delete_splitted_files(self):
+        """Borra los archivos temporales"""
         os.remove("left_pages.pdf")
         os.remove("right_pages.pdf")
     
