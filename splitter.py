@@ -75,20 +75,7 @@ class Splitter:
         right_reader = PdfReader("right_pages.pdf")
         output_writer = PdfWriter()
         
-        total_pages = max(len(left_reader.pages), len(right_reader.pages))
+        self._combine_alternately(left_reader, right_reader, output_writer)
+        self._create_output_file(output_writer, output_directory)
         
-        # Combine both files alternately
-        for i in range(total_pages):
-            output_writer.add_page(left_reader.pages[i])
-            output_writer.add_page(right_reader.pages[i])
-            
-        # Create output file path and name
-        input_filename = os.path.basename(self.pdf_file)
-        output_filename = os.path.splitext(input_filename)[0] + "_splitted.pdf"
-        output_file_path = os.path.join(output_directory, output_filename)
-        
-        with open(output_file_path, "wb") as file:
-            output_writer.write(file)
-        
-        # Delete temporary split files
         self._delete_splitted_files()
