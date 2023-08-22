@@ -1,3 +1,5 @@
 .venv
 pdf_prueba.pdf
 combined_pages.pdf
+__pycache__/
+*.pyc
