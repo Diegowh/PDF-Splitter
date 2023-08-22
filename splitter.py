@@ -7,14 +7,14 @@ class Splitter:
         self.pdf_file = pdf_file
         
     def _get_left_pages(self):
-        """Crea un archivo .pdf con las paginas de la izquierda del original.
+        """Create a .pdf file with the left half pages of the original
         """
         reader = PdfReader(self.pdf_file)
         writer = PdfWriter()
         
         for page in reader.pages:
             
-            # Obtiene la parte izquierda de la pagina
+            # Get the left half of the page
             original_width = page.mediabox[2] - page.mediabox[0]
             new_right = original_width / 2
             page.mediabox.upper_right = (new_right, page.mediabox[3])
@@ -24,12 +24,13 @@ class Splitter:
             writer.write(file)
 
     def _get_right_pages(self):
-        """Crea un archivo .pdf con las paginas de la derecha del original."""
+        """Create a .pdf file with the right half pages of the original.
+        """
         reader = PdfReader(self.pdf_file)
         writer = PdfWriter()
         
         for page in reader.pages:
-            # Obtiene la parte derecha de la pagina
+            # Get the right half of the page
             original_width = page.mediabox[2] - page.mediabox[0]
             new_left = original_width / 2
             page.mediabox.lower_left = (new_left, page.mediabox[1])
@@ -39,17 +40,17 @@ class Splitter:
             writer.write(file)
             
     def _create_splitted_files(self):
-        """Crea los archivos temporales."""
+        """Create temporary split files."""
         self._get_left_pages()
         self._get_right_pages()
             
     def _delete_splitted_files(self):
-        """Borra los archivos temporales"""
+        """Delete temporary split files"""
         os.remove("left_pages.pdf")
         os.remove("right_pages.pdf")
     
     def split_file(self, output_directory):
-        # Crea los archivos de las paginas izquierdas y derechas
+        # Create left and right pages files
         self._create_splitted_files()
         
         left_reader = PdfReader("left_pages.pdf")
@@ -58,12 +59,12 @@ class Splitter:
         
         total_pages = max(len(left_reader.pages), len(right_reader.pages))
         
-        # Combina ambos ficheros
+        # Combine both files alternately
         for i in range(total_pages):
             output_writer.add_page(left_reader.pages[i])
             output_writer.add_page(right_reader.pages[i])
             
-        # Crea el path del fichero de salida y el nombre de este
+        # Create output file path and name
         input_filename = os.path.basename(self.pdf_file)
         output_filename = os.path.splitext(input_filename)[0] + "_splitted.pdf"
         output_file_path = os.path.join(output_directory, output_filename)
@@ -71,5 +72,5 @@ class Splitter:
         with open(output_file_path, "wb") as file:
             output_writer.write(file)
         
-        # Borra los archivos temporales
+        # Delete temporary split files
         self._delete_splitted_files()
