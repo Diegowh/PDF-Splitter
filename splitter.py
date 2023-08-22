@@ -57,25 +57,29 @@ class Splitter:
             output_writer.add_page(left_reader.pages[i])
             output_writer.add_page(right_reader.pages[i])
             
-    def _create_output_file(self, output_writer, output_directory):
-        """Create the output file with the combined pages."""
-        input_filename = os.path.basename(self.pdf_file)
-        output_filename = os.path.splitext(input_filename)[0] + "_splitted.pdf"
-        output_file_path = os.path.join(output_directory, output_filename)
+    def _combine(self, output_writer, left_reader, right_reader):
+        """Combine left and right pages alternately."""
+        total_pages = max(len(left_reader.pages), len(right_reader.pages))
         
-        with open(output_file_path, "wb") as file:
-            output_writer.write(file)
+        for i in range(total_pages):
+            output_writer.add_page(left_reader.pages[i])
+            output_writer.add_page(right_reader.pages[i])
     
     def split_file(self, output_directory):
-        """Split the PDF file."""
-        # Create left and right pages files
+        """Split the PDF file into left and right halves, then combine them alternately."""
         self._create_splitted_files()
         
         left_reader = PdfReader("left_pages.pdf")
         right_reader = PdfReader("right_pages.pdf")
         output_writer = PdfWriter()
         
-        self._combine_alternately(left_reader, right_reader, output_writer)
-        self._create_output_file(output_writer, output_directory)
+        self._combine(output_writer, left_reader, right_reader)
+        
+        input_filename = os.path.basename(self.pdf_file)
+        output_filename = os.path.splitext(input_filename)[0] + "_splitted.pdf"
+        output_file_path = os.path.join(output_directory, output_filename)
+        
+        with open(output_file_path, "wb") as file:
+            output_writer.write(file)
         
         self._delete_splitted_files()
