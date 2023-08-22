@@ -48,6 +48,14 @@ class Splitter:
         """Delete temporary split files"""
         os.remove("left_pages.pdf")
         os.remove("right_pages.pdf")
+        
+    def _combine(self, left_reader, right_reader, output_writer):
+        """Combine left and right pages alternately."""
+        total_pages = max(len(left_reader.pages), len(right_reader.pages))
+        
+        for i in range(total_pages):
+            output_writer.add_page(left_reader.pages[i])
+            output_writer.add_page(right_reader.pages[i])
     
     def split_file(self, output_directory):
         # Create left and right pages files
