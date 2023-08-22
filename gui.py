@@ -4,13 +4,13 @@ from tkinter import filedialog
 from splitter import Splitter
 
 class UserInterface(tk.Tk):
-    """_summary_
+    """
     UserInterface class represents a GUI for the PDFSplitter app.
     """
     def __init__(self):
         super().__init__()
         self.title("PDF Splitter")
-        self.iconbitmap("pdf.ico")
+        self.iconbitmap("./pdf.ico")
         self.geometry("400x300+300+150")
         self.resizable(False, False)
 
