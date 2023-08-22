@@ -10,7 +10,7 @@ class UserInterface(tk.Tk):
     def __init__(self):
         super().__init__()
         self.title("PDF Splitter")
-        self.iconbitmap("./pdf.ico")
+        self.iconbitmap("pdf.ico")
         self.geometry("400x300+300+150")
         self.resizable(False, False)
 
