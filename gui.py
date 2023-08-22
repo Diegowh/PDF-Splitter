@@ -1,9 +1,3 @@
-"""
-PDF Splitter App
-
-Thi is a GUI application for splitting PDF pages.
-"""
-
 import os
 import tkinter as tk
 from tkinter import filedialog
