@@ -70,12 +70,12 @@ class PDFSplitterApp(tk.Tk):
         pdf_file_path = self.paths["pdf_file_path"].get()
         output_directory = self.paths["output_directory"].get()
 
-        # Comprueba si el archivo PDF existe
+        # Check if PDF file exists
         if not os.path.exists(pdf_file_path):
             print("The PDF file does not exist.")
             return
 
-        # Crea el objeto PDFSplitter
+        # Create the PDFSplitter object
         pdf_splitter = PDFSplitter(pdf_file_path)
 
         pdf_splitter.split_file(output_directory)
