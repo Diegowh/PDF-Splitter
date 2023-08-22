@@ -25,25 +25,31 @@ class PDFSplitterApp(tk.Tk):
             "output_directory": tk.StringVar()
         }
 
-        self.pdf_file_label = tk.Label(self, text="PDF file:")
-        self.pdf_file_entry = tk.Entry(self, textvariable=self.paths["pdf_file_path"])
-        self.pdf_file_browse_btn = tk.Button(self, text="Browse", command=self.browse_pdf_file)
+        self.labels = {
+            "pdf_file": tk.Label(self, text="PDF file:"),
+            "output_directory": tk.Label(self, text="Output directory:")
+        }
+        
+        self.entries = {
+            "pdf_file": tk.Entry(self, textvariable=self.paths["pdf_file_path"]),
+            "output_directory": tk.Entry(self, textvariable=self.paths["output_directory"])
+        }
+        
+        self.buttons = {
+            "browse_pdf": tk.Button(self, text="Browse", command=self.browse_pdf_file),
+            "browse_output": tk.Button(self, text="Browse", command=self.browse_output_dir),
+            "split": tk.Button(self, text="Split", command=self.split_pdf)
+        }
 
-        self.output_dir_label = tk.Label(self, text="Output directory:")
-        self.output_dir_entry = tk.Entry(self, textvariable=self.paths["output_directory"])
-        self.output_dir_browse_btn = tk.Button(self, text="Browse", command=self.browse_output_dir)
+        self.labels["pdf_file"].pack(pady=10)
+        self.entries["pdf_file"].pack(pady=5)
+        self.buttons["browse_pdf"].pack(pady=5)
 
-        self.split_button = tk.Button(self, text="Split", command=self.split_pdf)
+        self.labels["output_directory"].pack(pady=10)
+        self.entries["output_directory"].pack(pady=5)
+        self.buttons["browse_output"].pack(pady=5)
 
-        self.pdf_file_label.pack(pady=10)
-        self.pdf_file_entry.pack(pady=5)
-        self.pdf_file_browse_btn.pack(pady=5)
-
-        self.output_dir_label.pack(pady=10)
-        self.output_dir_entry.pack(pady=5)
-        self.output_dir_browse_btn.pack(pady=5)
-
-        self.split_button.pack(pady=30, fill="x", padx=20)
+        self.buttons["split"].pack(pady=20)
 
 
     def browse_pdf_file(self):
