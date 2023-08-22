@@ -7,11 +7,11 @@ Thi is a GUI application for splitting PDF pages.
 import os
 import tkinter as tk
 from tkinter import filedialog
-from pdf_splitter import PDFSplitter
+from splitter import Splitter
 
-class PDFSplitterApp(tk.Tk):
+class UserInterface(tk.Tk):
     """_summary_
-    PDFSplitterApp class represents a GUI app for splitting PDF pages.
+    UserInterface class represents a GUI for the PDFSplitter app.
     """
     def __init__(self):
         super().__init__()
@@ -75,11 +75,7 @@ class PDFSplitterApp(tk.Tk):
             print("The PDF file does not exist.")
             return
 
-        # Create the PDFSplitter object
-        pdf_splitter = PDFSplitter(pdf_file_path)
+        # Create the Splitter object
+        pdf_splitter = Splitter(pdf_file_path)
 
         pdf_splitter.split_file(output_directory)
-
-if __name__ == "__main__":
-    app = PDFSplitterApp()
-    app.mainloop()

@@ -1,7 +1,7 @@
 import os
 from PyPDF2 import PdfWriter, PdfReader
 
-class PDFSplitter:
+class Splitter:
     
     def __init__(self, pdf_file) -> None:
         self.pdf_file = pdf_file
