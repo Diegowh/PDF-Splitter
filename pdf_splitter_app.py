@@ -8,6 +8,9 @@ class PDFSplitterApp(Tk):
     def __init__(self):
         super().__init__()
         self.title("PDF Splitter")
+        self.iconbitmap("pdf.ico")
+        self.geometry("400x250+300+150")
+        self.resizable(False, False)
         self.pdf_file_path = StringVar()
         self.output_directory = StringVar()
         
