@@ -1,5 +1,6 @@
 import os
 import tkinter as tk
+import tkinter.messagebox
 from tkinter import filedialog
 from splitter import Splitter
 
@@ -61,15 +62,21 @@ class UserInterface(tk.Tk):
     def split_pdf(self):
         """Split the selected PDF file and save the parts to the chosen directory.
         """
-        pdf_file_path = self.paths["pdf_file_path"].get()
-        output_directory = self.paths["output_directory"].get()
+        try:
+            pdf_file_path = self.paths["pdf_file_path"].get()
+            output_directory = self.paths["output_directory"].get()
 
-        # Check if PDF file exists
-        if not os.path.exists(pdf_file_path):
-            print("The PDF file does not exist.")
-            return
+            # Check if PDF file exists
+            if not os.path.exists(pdf_file_path):
+                print("The PDF file does not exist.")
+                return
 
-        # Create the Splitter object
-        pdf_splitter = Splitter(pdf_file_path)
+            # Create the Splitter object
+            pdf_splitter = Splitter(pdf_file_path)
 
-        pdf_splitter.split_file(output_directory)
+            pdf_splitter.split_file(output_directory)
+        
+            tkinter.messagebox.showinfo("Success", "PDF split successfully!")
+
+        except Exception as e:
+            tkinter.messagebox.showerror("Error", "An error occurred while splitting the PDF: ", e)
