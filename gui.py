@@ -1,5 +1,6 @@
 import os
 import tkinter as tk
+import tkinter.messagebox
 from tkinter import filedialog
 from splitter import Splitter
 
